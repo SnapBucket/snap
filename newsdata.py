@@ -1,249 +1,283 @@
-"""The day's news, as data. Every item below happened or was first reported on
-20 November 2026 (UTC). Region and field counts on the page are derived from
-these lists, never typed by hand.
+"""The day's news as data: Saturday 21 November 2026.
 
-Text is kept short on purpose: the renderer measures every string against its
-column and refuses to draw one that would be clipped. Cards sit six across, so
-a card headline gets about 26 characters and its deck about 16.
+Every item here happened, or was first reported, on 21 November 2026 in some
+time zone. The counts printed on the page (stories, regions, fields) are
+derived from these lists at render time, never typed by hand.
 
-Fields: politics, war, economy, climate, disaster, technology, science, sport,
-culture, health.
+Each story carries a confidence tag and the outlets that carried it. The tag
+legend is on the page: CONFIRMED means two or more independent outlets,
+OFFICIAL means a government or agency statement, REPORTED means one outlet so
+far, CLAIM means one party's account, FORECAST means a prediction.
+
+Text is deliberately terse. The renderer measures every string against the
+column it will sit in and refuses to draw one that would be clipped, so a
+longer phrase here means a shorter phrase somewhere else.
 """
 
 PAPER = "THE WORLD IN ONE DAY"
-DAY_LONG = "20 NOVEMBER 2026"
-WEEKDAY = "FRIDAY"
+DAY_WORDS = "SATURDAY"
+DAY_REST = "21 NOVEMBER 2026"
+DAY_LINE = "Saturday 21 November 2026"
 
-REGIONS = ["Europe", "Asia", "Middle East", "Africa", "Americas", "Oceania", "Global"]
+REGIONS = [
+    "Europe",
+    "Asia",
+    "Middle East",
+    "Africa",
+    "Americas",
+    "Oceania",
+    "Global",
+]
 
 REGION_COLOR = {
-    "Europe":      "#2F6BD8",
-    "Asia":        "#C8452B",
-    "Middle East": "#A87410",
-    "Africa":      "#1F7F63",
-    "Americas":    "#7B3FA0",
-    "Oceania":     "#126E75",
-    "Global":      "#4A5568",
+    "Europe": "#2F5FA8",
+    "Asia": "#B23A22",
+    "Middle East": "#96700F",
+    "Africa": "#1C7355",
+    "Americas": "#6E3A93",
+    "Oceania": "#0F6A70",
+    "Global": "#3D4657",
 }
 
 FIELD_LABEL = {
     "politics": "POLITICS",
-    "war": "WAR & SECURITY",
+    "war": "WAR",
     "economy": "ECONOMY",
     "climate": "CLIMATE",
     "disaster": "DISASTER",
-    "technology": "TECHNOLOGY",
+    "technology": "TECH",
     "science": "SCIENCE",
     "sport": "SPORT",
     "culture": "CULTURE",
     "health": "HEALTH",
 }
 
-# Four leads. pin = (lon, lat) on the world map.
+# Four leads. pin = (longitude, latitude) for the map.
 LEADS = [
     {
-        "region": "Europe",
-        "field": "war",
-        "headline": "Russia's Biggest Barrage Hits Ukraine",
-        "deck": "400 drones, 110 missiles; eight killed, two in Poland.",
-        "sure": "CONFIRMED",
-        "outlets": "Reuters, AP, CBS",
-        "pin": (30.5, 50.4),
-        "icon": "strike",
-    },
-    {
-        "region": "Middle East",
-        "field": "war",
-        "headline": "Iran Seeks a Deal; Trump Says No",
-        "deck": "Araqchi seeks guarantees; Trump calls terms unacceptable.",
-        "sure": "CONFIRMED",
-        "outlets": "Reuters, AP",
-        "pin": (51.4, 35.7),
-        "icon": "talks",
-    },
-    {
-        "region": "Europe",
-        "field": "politics",
-        "headline": "EU and UK Sign Brussels Reset",
-        "deck": "Food checks cut and carbon markets linked after five years.",
-        "sure": "OFFICIAL",
-        "outlets": "Commission, gov.uk",
-        "pin": (4.35, 50.85),
-        "icon": "handshake",
-    },
-    {
         "region": "Global",
-        "field": "economy",
-        "headline": "Tech Rout Wipes $9tn Off Stocks",
-        "deck": "Nasdaq -5.3%; Taiwan's worst week since 1990.",
+        "field": "climate",
+        "headline": "Climate Talks Run Overtime",
+        "deck": "Antalya draft drops fossil fuels; EU may walk out.",
         "sure": "CONFIRMED",
-        "outlets": "Reuters, AP",
-        "pin": (-74.0, 40.7),
-        "icon": "chart",
-    },
-]
-
-# Twelve numbered cards: 01-12, six across.
-CARDS = [
-    {
-        "region": "Asia",
-        "field": "disaster",
-        "headline": "Akvan Hits Odisha",
-        "deck": "372k evacuated",
-        "sure": "OFFICIAL",
-        "outlets": "IMD",
-        "pin": (84.9, 19.3),
+        "outlets": "AP, AFP, Al Jazeera",
+        "pin": (30.7, 36.9),
+        "icon": "dome",
     },
     {
         "region": "Americas",
-        "field": "politics",
-        "headline": "Trump Attacks Iran, AI",
-        "deck": "90-min briefing",
+        "field": "war",
+        "headline": "Cartel Boss Taken; 11 Killed",
+        "deck": "El Chapo Isidro held in Sinaloa; FBI had him listed.",
         "sure": "CONFIRMED",
-        "outlets": "CNN",
-        "pin": (-77.0, 38.9),
-    },
-    {
-        "region": "Africa",
-        "field": "health",
-        "headline": "581 Women Killed, Jul-Sep",
-        "deck": "Police figures",
-        "sure": "CONFIRMED",
-        "outlets": "BBC",
-        "pin": (28.0, -26.2),
-    },
-    {
-        "region": "Asia",
-        "field": "economy",
-        "headline": "Japan Core Inflation 2.2%",
-        "deck": "A 2026 high",
-        "sure": "OFFICIAL",
-        "outlets": "Jiji",
-        "pin": (139.7, 35.7),
-    },
-    {
-        "region": "Oceania",
-        "field": "climate",
-        "headline": "Tonga Drought Crisis",
-        "deck": "Drought, 28 days",
-        "sure": "OFFICIAL",
-        "outlets": "RNZ",
-        "pin": (-175.2, -21.1),
+        "outlets": "AP, AFP",
+        "pin": (-108.5, 25.6),
+        "icon": "badge",
     },
     {
         "region": "Middle East",
         "field": "war",
-        "headline": "Saudi Strikes Hodeidah",
-        "deck": "Houthis threaten",
+        "headline": "Iran Hits Three Oil Tankers",
+        "deck": "Strikes near Hormuz; a new launcher shown.",
         "sure": "CONFIRMED",
-        "outlets": "AP",
-        "pin": (42.95, 14.8),
+        "outlets": "AP, LA Times",
+        "pin": (56.3, 26.6),
+        "icon": "tanker",
+    },
+    {
+        "region": "Africa",
+        "field": "disaster",
+        "headline": "Funeral Boat Capsizes, 24 Die",
+        "deck": "Bayelsa, Nigeria: 24 rescued, search continues.",
+        "sure": "CONFIRMED",
+        "outlets": "AP, AFP, Reuters",
+        "pin": (6.1, 4.8),
+        "icon": "boat",
+    },
+]
+
+# Twelve numbered cards, four across.
+CARDS = [
+    {
+        "region": "Europe",
+        "field": "war",
+        "headline": "Strike Hits Central Ukraine",
+        "deck": "Kryvyi Rih: 2 dead, 60 hurt",
+        "sure": "CONFIRMED",
+        "outlets": "AP, DW",
+        "pin": (33.4, 47.9),
     },
     {
         "region": "Europe",
         "field": "politics",
-        "headline": "Italy Strike: 1.5 Million",
-        "deck": "CGIL v budget",
+        "headline": "NATO Vows to Defend Poland",
+        "deck": "Rutte in Warsaw after 3 objects",
         "sure": "CONFIRMED",
-        "outlets": "ANSA",
-        "pin": (12.5, 41.9),
+        "outlets": "Reuters, Al Jazeera",
+        "pin": (21.0, 52.2),
     },
     {
         "region": "Americas",
         "field": "technology",
-        "headline": "Anthropic Falls 12%",
-        "deck": "Day two selloff",
+        "headline": "FBI Probes Data Breach",
+        "deck": "Crime records system hit again",
         "sure": "CONFIRMED",
-        "outlets": "CNBC, Axios",
-        "pin": (-73.6, 40.9),
+        "outlets": "AP, CNN",
+        "pin": (-77.0, 38.9),
+    },
+    {
+        "region": "Europe",
+        "field": "politics",
+        "headline": "Sixth Saturday of Protests",
+        "deck": "France: rallies over living costs",
+        "sure": "CONFIRMED",
+        "outlets": "AFP, France 24",
+        "pin": (2.35, 48.85),
     },
     {
         "region": "Asia",
-        "field": "politics",
-        "headline": "Beijing Warns Tokyo",
-        "deck": "Taiwan words",
+        "field": "health",
+        "headline": "Toxic Brew Kills 16 in India",
+        "deck": "Manipur: about 600 in hospital",
+        "sure": "CONFIRMED",
+        "outlets": "PTI, Indian Express",
+        "pin": (93.9, 24.8),
+    },
+    {
+        "region": "Asia",
+        "field": "sport",
+        "headline": "India 486-4, Lead 118",
+        "deck": "Rahul 136, Gill 98 in Wellington",
+        "sure": "CONFIRMED",
+        "outlets": "AFP, BBC",
+        "pin": (174.8, -41.3),
+    },
+    {
+        "region": "Asia",
+        "field": "technology",
+        "headline": "Seoul Backs AI Data Centres",
+        "deck": "Lee tours a $5.2bn Ulsan site",
         "sure": "OFFICIAL",
-        "outlets": "AFP",
-        "pin": (116.4, 39.9),
+        "outlets": "Yonhap, Reuters",
+        "pin": (129.3, 35.5),
+    },
+    {
+        "region": "Americas",
+        "field": "economy",
+        "headline": "Trump Backs a 10% Card Cap",
+        "deck": "Would work with Democrats, he says",
+        "sure": "CONFIRMED",
+        "outlets": "AP, Axios",
+        "pin": (-74.5, 41.5),
+    },
+    {
+        "region": "Africa",
+        "field": "war",
+        "headline": "Villagers Killed in Sudan",
+        "deck": "Kordofan: 3,670 displaced",
+        "sure": "REPORTED",
+        "outlets": "IOM, Dar Hamar",
+        "pin": (28.4, 12.2),
     },
     {
         "region": "Global",
-        "field": "climate",
-        "headline": "COP31 Runs Past Deadline",
-        "deck": "No deal; new text",
+        "field": "science",
+        "headline": "Probe Reaches Mercury",
+        "deck": "Eight years to the inner planet",
         "sure": "CONFIRMED",
-        "outlets": "UN News",
-        "pin": (30.7, 36.9),
+        "outlets": "ESA, Nature",
+        "pin": (8.65, 49.87),
     },
     {
-        "region": "Middle East",
-        "field": "war",
-        "headline": "Iraqi Forces Enter Jurf",
-        "deck": "Kataib Hezbollah",
+        "region": "Americas",
+        "field": "disaster",
+        "headline": "6.7 Quake Shakes Peru",
+        "deck": "Junin: no deaths reported",
         "sure": "CONFIRMED",
-        "outlets": "AP",
-        "pin": (44.2, 32.9),
+        "outlets": "USGS, AP",
+        "pin": (-75.98, -10.86),
     },
     {
         "region": "Oceania",
-        "field": "disaster",
-        "headline": "Nassau Emergency",
-        "deck": "Cyclone nears",
-        "sure": "OFFICIAL",
-        "outlets": "RNZ",
+        "field": "climate",
+        "headline": "Cyclone Xavier Weakens",
+        "deck": "Nassau: all 84 residents safe",
+        "sure": "CONFIRMED",
+        "outlets": "RNZ, PINA",
         "pin": (-165.4, -11.6),
     },
 ]
 
-# Digest briefs, numbered on from the cards (13-24).
+# Digest briefs, numbered on from the cards (13-26).
 BRIEFS = [
-    {"region": "Global", "field": "science", "text": "BepiColombo nears Mercury"},
-    {"region": "Africa", "field": "health", "text": "Keto diet cut liver fat 67%"},
-    {"region": "Oceania", "field": "sport", "text": "Barrett: 150th All Blacks test"},
-    {"region": "Asia", "field": "culture", "text": "Swift named artist of the year"},
-    {"region": "Global", "field": "science", "text": "CERN sees rare particle decay"},
-    {"region": "Global", "field": "science", "text": "Voyager 1: 24 light-hours out"},
-    {"region": "Europe", "field": "health", "text": "1,144 Ukraine child casualties"},
-    {"region": "Global", "field": "technology", "text": "Robot arms talks miss deadline"},
-    {"region": "Americas", "field": "technology", "text": "Trump: no data centres abroad"},
-    {"region": "Asia", "field": "economy", "text": "Malaysia trade surplus 41.8bn"},
-    {"region": "Americas", "field": "economy", "text": "Argentina risk above 1,000"}
+    {"region": "Asia", "field": "culture", "text": "Khadam sweeps Malaysian film awards"},
+    {"region": "Africa", "field": "health", "text": "DR Congo Ebola deaths pass 5,700"},
+    {"region": "Africa", "field": "economy", "text": "Kenya starts drilling in Turkana"},
+    {"region": "Asia", "field": "economy", "text": "Japan raises bluefin tuna quota 25%"},
+    {"region": "Asia", "field": "politics", "text": "Japan LDP may replace a minister"},
+    {"region": "Americas", "field": "politics", "text": "Guyana rules out talks with Venezuela"},
+    {"region": "Americas", "field": "economy", "text": "Argentina backs $50bn gas export plan"},
+    {"region": "Americas", "field": "politics", "text": "Canada sees no shift in US military ties"},
+    {"region": "Europe", "field": "climate", "text": "UK has its coldest night since January"},
+    {"region": "Europe", "field": "politics", "text": "Students march in 25 countries"},
+    {"region": "Middle East", "field": "war", "text": "Qatar mediators hold talks in Tehran"},
+    {"region": "Middle East", "field": "war", "text": "Gaza aid van strike kills three"},
+    {"region": "Asia", "field": "economy", "text": "Prabowo brings home Rp1,600tn pledges"},
+    {"region": "Middle East", "field": "economy", "text": "Saudi sets 15% minimum tax for 2027"},
+    {"region": "Europe", "field": "politics", "text": "De Gennaro found dead in Naples"},
+    {"region": "Middle East", "field": "disaster", "text": "Basra power station fire kills 4"},
+    {"region": "Asia", "field": "disaster", "text": "Vietnam floods kill 41, nine missing"},
+    {"region": "Asia", "field": "health", "text": "Delhi air stays in the poor band"},
+    {"region": "Asia", "field": "politics", "text": "China tells Japan to change attitude"},
 ]
 
-# Six stamps, chronological in UTC, 24-hour clock.
+# Eight stamps in UTC, chronological, 24-hour clock.
 TIMELINE = [
-    ("00:30", "Missiles hit Kyiv; two land in Poland"),
-    ("02:30", "Akvan makes landfall in Odisha"),
-    ("03:30", "Japan core inflation 2.2%"),
-    ("09:00", "EU and UK sign Brussels reset"),
-    ("15:00", "COP31 deadline passes, no deal"),
-    ("18:35", "Trump: Iran terms unacceptable"),
+    ("00:09", "Quake M6.7 in Peru"),
+    ("13:00", "Rallies fill Paris"),
+    ("14:03", "NATO on Poland"),
+    ("15:00", "COP31: no new text"),
+    ("17:39", "FBI probes records"),
+    ("18:24", "Probe at Mercury"),
+    ("21:00", "24 dead in Nigeria"),
+    ("23:36", "COP31 second day"),
 ]
 
-# Reported figures only; each appears in a story above.
+# Reported figures only; each one traces to a story above.
 STATS = [
-    ("8", "killed in Ukraine"),
-    ("400+", "drones in one night"),
-    ("$9tn", "wiped off stocks"),
-    ("372,000", "evacuated in Odisha"),
-    ("581", "women killed Jul-Sep"),
+    ("24", "dead in Nigeria boat"),
+    ("11", "killed in Sinaloa"),
+    ("60", "wounded in Kryvyi Rih"),
+    ("5,700", "Ebola deaths, DR Congo"),
+    ("6.7", "Peru quake magnitude"),
+    ("84", "safe on Nassau"),
 ]
 
+# News that belongs to 18-20 November and was left out on purpose.
 LEFT_OUT = [
-    ("19 Nov", "Somalia expels UAE envoy"),
-    ("19 Nov", "ICJ: Myanmar genocide"),
-    ("19 Nov", "Anthropic's $81bn IPO debut"),
-    ("17 Nov", "PAHO revokes US measles status"),
-    ("18 Nov", "Senegal boat capsizes"),
+    ("20 Nov", "Italy general strike"),
+    ("20 Nov", "S&P 500 falls 3.7%"),
+    ("19 Nov", "Anthropic debuts; AI stocks slide"),
+    ("18 Nov", "Eritrea retakes Badme"),
 ]
 
+# Scheduled for 22 November, so not yet news on the day.
 NOT_YET = [
-    ("21 Nov", "COP31 third draft"),
-    ("21 Nov", "BepiColombo enters orbit"),
-    ("21 Nov", "All Blacks v England"),
+    ("22 Nov", "COP31: a fourth draft"),
+    ("22 Nov", "India v NZ, final day"),
 ]
+
+SURE_LEGEND = [
+    ("CONFIRMED", "2+ outlets"),
+    ("OFFICIAL", "official statement"),
+    ("REPORTED", "one outlet"),
+    ("CLAIM", "one side's account"),
+    ("FORECAST", "a prediction"),
+]
+
+FOOTER = "Every story here happened, or was first reported, on 21 November 2026."
 
 SOURCES_LINE = (
-    "Reuters, AP, AFP, BBC, UN News, ANSA, Jiji, PTI, SAPS, IMD, "
-    "European Commission, gov.uk, RNZ, CNN, FT."
+    "Sources: AP, AFP, Reuters, BBC, Al Jazeera, DW, CNN, USGS, ESA, "
+    "PTI, RNZ, PINA, Axios, IOM."
 )
